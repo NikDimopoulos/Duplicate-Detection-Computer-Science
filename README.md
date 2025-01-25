@@ -1,4 +1,34 @@
-# Duplicate-Detection-Computer-Science
-Nowadays, consumers spend a large amount of time searching online for different products in order to find the one that meets their needs. However, there is a vast number of sites,which sometimes may present the very same product in a different way. As a result, coming up with a method of recognizing the same items in different webshops would be quite useful for the customer. However, trying to track down the duplicates manually is quite a challenging and annoying procedure.
-The aim of this project is to construct a Python code that receives a dataset of 1624 TV items from 4 different sites and detects the duplicates. This dataset can be found in the "TVs-all-merged.json" file, which includes the following information for every observation: shop, modelID, URL and title. The modelID is the unique code that corresponds to each and every product, helping both consumers and sellers to identify a specfic item. However, sometimes it may be the case that a webshop does not accompany its products with this handy code, for this reason it is used on this code only as a means of validating the pairs predicted by the code. The stages executed by the code are the following:
-1. Data Cleaning- Standardizing the units (for example inch can be expressed in multiple ways  "-inch", """, " inches")
+# **Duplicate-Detection-Computer-Science**
+### *Computer Science for Business Analytics, 2024-25*
+#### *NIKOLAOS DIMOPOULOS, 701771*
+---
+#### Nowadays, consumers spend a large amount of time searching online for different products in order to find the one that meets their needs. However, there is a vast number of sites,which sometimes may present the very same product in a different way. As a result, coming up with a method of recognizing the same items in different webshops would be quite useful for the customer. However, trying to track down the duplicates manually is quite a challenging and annoying procedure.
+#### The aim of this project is to construct a Python code that receives a dataset of 1624 TV items from 4 different sites and detects the duplicates. This dataset can be found in the "TVs-all-merged.json" file, which includes the following information for every observation: shop,modelID, features, URL and title. The modelID is the unique code that corresponds to each and every product, helping both consumers and sellers to identify a specfic item. However, sometimes it may be the case that a webshop does not accompany its products with this handy code, for this reason it is used on this code only as a means of validating the pairs predicted by the code. The stages executed by the code are the following:
+
+#### 1.Data Cleaning:  
+Deleting the URL column, standardizing the units of measurement, removing special characters, replacing fractions with decimals, standardizing expressions such as "width" and "weight"
+#### 2.Extracting Model Words:
+Scanning the titles, as well as the features of the products in order to track down words that follow specific patterns and extract them
+#### 3.Binary Matrix: 
+Creating binary vectors, indicating which of the model words are found in a product. Combining the binary vectors of the products into a single matrix.
+
+#### 4.Signature Matrix:
+Generating Random Permutations for the columns of the Binary Matrix and finding the first non-zero element, in order to construct a matrix with 300 rows(fewer than the binary one), which is later used for the LSH
+
+#### 5.Locality Sensitive Hashing (LSH): 
+Splitting the Signature Matrix into bands and hashing the column bands into buckets. Each column corresponds to a product. Products that are hashed into the same bucket are considered as candidate duplicates.
+
+#### 6.Candidate Filtering:
+Removing pairs of pruducts that have different brands
+
+#### 7.Detecting the True Duplicates based on the modelID of each product
+
+#### 8.Multi-Component Similarity Method: 
+Using the jaccard similarity of the binary vectors as well as the jaccard similarity of the product titles, in order to create a dissimilarity matrix, based on which two clustering procedures are done. This clustering yields the final duplicate pairs.
+#### 9.Evaluation: 
+Generating 5 bootstrap samples that are used as training sets, in order to find the best parameters for the clustering techniques and then using the optimal values of the parameters on the corresponding test sets.In order to evaluate the performances of LSH and MSM, the following metrics are computed: Pair Quality, Pair Completeness, F1 and F1* scores. Those computations are based on the true positive, true negative, false positive and false negative pairs, which are calculated by comparing the final duplicate pairs with the true ones.
+#### 10. Plot the metrics for different numbers of bands
+As the signature matrix consists of 300 rows, the numbers of bands used are the following: 20,25,30,50,75,100,150. The number of bands is closely related to the number of candidate duplicates generated by the LSH function, thus giving the researcher the opportunity to portray the performance of the algorithm depending on the fraction of the candidate pairs.
+### Using the Code
+In order to apply the code, one has to load the "TVs-all-merged.json" dataset and then load the following required libraries: 
+`json`, `numpy`, `re`, `pandas`, `random`, `collections`, `scipy`, `scikit-learn`, `scipy`, `matplotlib`, `itertools`
