@@ -1,4 +1,5 @@
 # **Duplicate-Detection-Computer-Science**
+Detecting Duplicate Products across different webshops using Locality Sensitive Hashing and Machine Learning 
 ### *Computer Science for Business Analytics, 2024-25*
 #### *NIKOLAOS DIMOPOULOS, 701771*
 ---
